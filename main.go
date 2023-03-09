@@ -8,6 +8,26 @@ import(
 	"github.com/shomali11/slacker"
 )
 
+func printCommandEvents(analyticsChannel <-chan *slacker.CommandEvent){
+	for event := range analyticsChannel {
+		fmt.Println("Command Events")
+		fmt.Println(event.TimeStamp)
+		fmt.Println(event.Command)
+		fmt.Println(event.Parameters)
+		fmt.Println(event.Event)
+		fmt.Println()
+	}
+}
+
 func main(){
+	os.Setenv("SLACK_BOT_TOKEN","")
+	os.Setenv("SLACK_APP_TOKEN","")
+
+	bot := slacker.NewClient(os.Getenv("SLACK_BOT_TOKEN"), os.Getenv("SLACK_APP_TOKEN"))
+
+	go printCommandEvents(bot.printCommandEvents())
+
+	ctx , cancel := context.WithCancel(context.Background())
+	defer cancel()
 	
 }
