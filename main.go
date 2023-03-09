@@ -30,4 +30,8 @@ func main(){
 	ctx , cancel := context.WithCancel(context.Background())
 	defer cancel()
 	
+	err := bot.Listen(ctx)
+	if err !=nil{
+		log.Fatal(err)
+	}
 }
