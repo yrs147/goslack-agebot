@@ -27,6 +27,21 @@ func main(){
 
 	go printCommandEvents(bot.printCommandEvents())
 
+	bot.Command("my yob is <year>", &slacker.CommandDefinition){
+		Description: "yob Calculator",
+		Example: "my yob is 2005" ,
+		Handler: func(botCtx slacker.BotContext, request slacker.Request , response slacker.ResponseWriter){
+			year := request.Param("year")
+			yob, err := strconv.Atoi(year)
+			if err != nil{
+				println("error")
+			}
+			age := 2023-yob
+			r := fmt.Sprintf("Age is %d", age)
+			response.Reply(r)
+		}
+	}
+
 	ctx , cancel := context.WithCancel(context.Background())
 	defer cancel()
 	
